@@ -1,7 +1,7 @@
 /**
  *  UniFi Wireless Presence
  *
- *  Copyright 2020 xtreme
+ *  Copyright 2022 xtreme
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -21,9 +21,10 @@ definition(
     description: "Use UniFi wireless clients as presence sensor",
     category: "My Apps",
     singleInstance: true,
-    iconUrl: "https://raw.githubusercontent.com/xtreme22886/SmartThings_UniFi-Presence-Sensor/master/ubiquiti.png",
-    iconX2Url: "https://raw.githubusercontent.com/xtreme22886/SmartThings_UniFi-Presence-Sensor/master/ubiquiti.png",
-    iconX3Url: "https://raw.githubusercontent.com/xtreme22886/SmartThings_UniFi-Presence-Sensor/master/ubiquiti.png",
+    iconUrl: "",
+    iconX2Url: "",
+    iconX3Url: "",
+    importUrl: "https://raw.githubusercontent.com/xtreme22886/Hubitat_UniFi-Presence-Sensor/main/App/unifi-wireless-presence.groovy",
     oauth: true
 )
 
