@@ -23,7 +23,7 @@ metadata {
         author: "xtreme",
         importUrl: "https://raw.githubusercontent.com/xtreme22886/Hubitat_UniFi-Presence-Sensor/main/Driver/unifi-presence-sensor.groovy"
     ) {
-	capability "PresenceSensor"
+        capability "PresenceSensor"
         command "arrived"
         command "departed"
     }
@@ -41,10 +41,10 @@ def setPresence(status) {
     oldStatus = device.latestValue("presence")
     
     if (status == true) {
-	currentStatus = "present"
+        currentStatus = "present"
         event = "arrived"
     } else {
-	currentStatus = "not present"
+        currentStatus = "not present"
         event = "departed"
     }
 
