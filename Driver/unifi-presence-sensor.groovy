@@ -1,7 +1,7 @@
 /**
  *  UniFi Presence Sensor
  *
- *  Copyright 2019 xtreme
+ *  Copyright 2022 xtreme
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -14,18 +14,41 @@
  *
  */
 
+// Version 2022.04.30.1
+
 metadata {
-	definition (name: "UniFi Presence Sensor", namespace: "xtreme22886", author: "xtreme") {
-		capability "PresenceSensor"
-		command "setPresence"
-	}
+    definition (
+        name: "UniFi Presence Sensor",
+        namespace: "xtreme22886",
+        author: "xtreme",
+        importUrl: "https://raw.githubusercontent.com/xtreme22886/Hubitat_UniFi-Presence-Sensor/main/Driver/unifi-presence-sensor.groovy"
+    ) {
+	capability "PresenceSensor"
+        command "arrived"
+        command "departed"
+    }
+}
+
+def arrived() {
+    setPresence(true)
+}
+
+def departed() {
+    setPresence(false)
 }
 
 def setPresence(status) {
-	if (status == false) {
-		status = "not present"
-	} else {
-		status = "present"
-	}
-	sendEvent(name: "presence", value: status)
+    oldStatus = device.latestValue("presence")
+    
+    if (status == true) {
+	currentStatus = "present"
+        event = "arrived"
+    } else {
+	currentStatus = "not present"
+        event = "departed"
+    }
+
+    if (oldStatus != currentStatus) {
+        sendEvent(displayed: true,  isStateChange: true, name: "presence", value: currentStatus, descriptionText: "$device.displayName has $event")
+    }
 }
