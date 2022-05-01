@@ -225,8 +225,8 @@ def updateDevice() {
     def body = request.JSON
     log.debug "Received the following presence update(s): ${body.update}"
     body.update.each { device ->
-        def chlid = getChildDevice(device.id)
-        chlid.setPresence(device.present)
+        def child = getChildDevice(device.id)
+        child.setPresence(device.present)
     }
 	
     def dataString = new groovy.json.JsonOutput().toJson("result":"success")
@@ -248,7 +248,7 @@ def addDevice(List toAdd) {
         }
         def child = getChildDevice(dni)
         if (!child) {
-            addChildDevice("xtreme22886", "UniFi Presence Sensor", dni, getLocationID(), ["label": name])    
+            addChildDevice("xtreme22886", "UniFi Presence Sensor", dni, getLocationID(), ["label": name])
          }
     }
 }
