@@ -1,4 +1,3 @@
-{
-  "UniFi Wireless Presence":{version:"2022.04.30.1",file:"unifi-wireless-presence.groovy"},
-  "UniFi Presence Sensor":{version:"2022.04.30.1",file:"unifi-presence-sensor.groovy"}
+{"UniFi Wireless Presence":{version:"2022.04.30.1",file:"unifi-wireless-presence.groovy"},
+"UniFi Presence Sensor":{version:"2022.04.30.1",file:"unifi-presence-sensor.groovy"}
 }
