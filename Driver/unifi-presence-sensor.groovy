@@ -14,8 +14,6 @@
  *
  */
 
-// Version 2022.04.30.1
-
 metadata {
     definition (
         name: "UniFi Presence Sensor",
@@ -26,6 +24,7 @@ metadata {
         capability "PresenceSensor"
         command "arrived"
         command "departed"
+        command "checkDriverStatus"
     }
 }
 
@@ -38,7 +37,9 @@ def departed() {
 }
 
 def setPresence(status) {
-    oldStatus = device.latestValue("presence")
+    def oldStatus = device.latestValue("presence")
+    def currentStatus
+    def event
     
     if (status == true) {
         currentStatus = "present"
@@ -50,5 +51,44 @@ def setPresence(status) {
 
     if (oldStatus != currentStatus) {
         sendEvent(displayed: true,  isStateChange: true, name: "presence", value: currentStatus, descriptionText: "$device.displayName has $event")
+    }
+}
+
+def checkDriverStatus() {
+    state."Driver Name" = "UniFi Presence Sensor"
+    state."Driver Version" = "2022.05.03"
+    state."Driver Status" = "unknown"
+    
+    try {
+        httpGet(uri: "https://xtreme22886.github.io/Hubitat_UniFi-Presence-Sensor/versions.json", contentType: "application/json") { resp ->
+            switch (resp.status) {
+                case 200:
+                    if (resp.data."${state."Driver Name"}") {
+                        if (state."Driver Version" == resp.data."${state."Driver Name"}".version) {
+                            state."Driver Status" = "Up To Date"
+                        }
+                        if (state."Driver Version" < resp.data."${state."Driver Name"}".version) {
+                            state."Driver Status" = "Update Available"
+                        }
+                    } else {
+                        state."Driver Status" = "unknown"
+                        log.error("'${state."Driver Name"}' not listed on versions page")
+                    }
+                    break
+                default:
+                    state."Driver Status" = "unknown"
+                    log.error("Unable to check for '${state."Driver Name"}' driver updates")
+                    break
+            }
+        }
+    } catch (Exception e) {
+        def error = e as String
+        if (error.contains("Not Found")) {
+            state."Driver Status" = "unknown"
+            log.error("'${state."Driver Name"}' version page not found")
+        } else {
+            state."Driver Status" = "unknown"
+            log.error("Unknown error trying to check updates for '${state."Driver Name"}'")
+        }
     }
 }
