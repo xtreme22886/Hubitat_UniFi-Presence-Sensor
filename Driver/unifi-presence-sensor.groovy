@@ -60,7 +60,7 @@ def checkDriverStatus() {
     state."Driver Status" = "unknown"
     
     try {
-        httpGet(uri: "https://xtreme22886.github.io/Hubitat_UniFi-Presence-Sensor/versions.json", contentType: "application/json") { resp ->
+        httpGet(uri: "https://xtreme22886.github.io/Hubitat_UniFi-Presence-Sensor/Driver/version.json", contentType: "application/json") { resp ->
             switch (resp.status) {
                 case 200:
                     if (resp.data."${state."Driver Name"}") {
